@@ -25,7 +25,7 @@ namespace DevIO.Api.ViewModels
         public string Descricao { get; set; }
 
         // Evita o erro de conversão de string vazia para IFormFile
-        [JsonIgnore]
+        [JsonIgnore]        
         public IFormFile ImagemUpload { get; set; }
 
         public string Imagem { get; set; }
