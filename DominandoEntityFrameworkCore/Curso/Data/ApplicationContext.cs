@@ -12,12 +12,17 @@ namespace Curso.Data
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            const string strConnection="Data source=(localdb)\\mssqllocaldb; Initial Catalog=C002;Integrated Security=true;pooling=true;";
+            const string strConnection="Data source=(localdb)\\mssqllocaldb; Initial Catalog=DevIO-02;Integrated Security=true;pooling=true;";
             optionsBuilder
+                //.UseSqlServer(strConnection,p=>p.UseQuerySplittingBehavior(QuerySplittingBehavior.SplitQuery))
                 .UseSqlServer(strConnection)
                 .EnableSensitiveDataLogging()
-                //.UseLazyLoadingProxies()
                 .LogTo(Console.WriteLine, LogLevel.Information);
+        }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            //modelBuilder.Entity<Departamento>().HasQueryFilter(p=>!p.Excluido);
         }
     }
 }
