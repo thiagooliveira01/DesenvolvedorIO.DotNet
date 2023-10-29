@@ -1,0 +1,7 @@
+https://developer.mozilla.org/en-US/docs/Web/HTTP
+
+https://swagger.io/
+
+https://jwt.io/
+
+https://www.postman.com/
