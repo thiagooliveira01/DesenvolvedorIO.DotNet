@@ -21,7 +21,10 @@ namespace Curso.Data
             optionsBuilder
                 .UseSqlServer(strConnection)
                 .LogTo(Console.WriteLine, LogLevel.Information)
-                .EnableSensitiveDataLogging();
+                .EnableSensitiveDataLogging()
+                .AddInterceptors(new Interceptadores.InterceptadorDeComandos())
+                .AddInterceptors(new Interceptadores.InterceptadorDeConexao())
+                .AddInterceptors(new Interceptadores.InterceptadorPersistencia());
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
