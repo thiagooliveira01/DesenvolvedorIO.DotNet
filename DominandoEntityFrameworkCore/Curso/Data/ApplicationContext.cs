@@ -11,7 +11,8 @@ namespace Curso.Data
 {
     public class ApplicationContext : DbContext
     {
-        public DbSet<Livro> Livros {get;set;}
+        public DbSet<Departamento> Departamentos {get;set;}
+        public DbSet<Funcionario> Funcionarios { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -19,53 +20,9 @@ namespace Curso.Data
 
             optionsBuilder
                 .UseSqlServer(strConnection)
+                //.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTrackingWithIdentityResolution)
                 .LogTo(Console.WriteLine, LogLevel.Information)
                 .EnableSensitiveDataLogging();
         }
-
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
-        {
-            //Curso.Funcoes.MinhasFuncoes.RegistarFuncoes(modelBuilder);
-
-            modelBuilder
-                .HasDbFunction(_minhaFuncao)
-                .HasName("LEFT")
-                .IsBuiltIn();
-
-            modelBuilder
-                .HasDbFunction(_letrasMaiusculas)
-                .HasName("ConverterParaLetrasMaiusculas")
-                .HasSchema("dbo");
-
-            modelBuilder
-                .HasDbFunction(_dateDiff)
-                .HasName("DATEDIFF")
-                .HasTranslation(p=> 
-                {
-                    var argumentos = p.ToList();
-
-                    var contante = (SqlConstantExpression)argumentos[0];
-                    argumentos[0] = new SqlFragmentExpression(contante.Value.ToString());
-
-                    return new SqlFunctionExpression("DATEDIFF", argumentos, false, new[]{false, false, false}, typeof(int), null);
-
-                })
-                .IsBuiltIn();
-        }
-
-        private static MethodInfo _minhaFuncao = typeof(MinhasFuncoes)
-                    .GetRuntimeMethod("Left", new[] {typeof(string), typeof(int)});
-
-        private static MethodInfo _letrasMaiusculas = typeof(MinhasFuncoes)
-                    .GetRuntimeMethod(nameof(MinhasFuncoes.LetrasMaiusculas), new[] {typeof(string)});
-
-        private static MethodInfo _dateDiff = typeof(MinhasFuncoes)
-                    .GetRuntimeMethod(nameof(MinhasFuncoes.DateDiff), new[] {typeof(string), typeof(DateTime), typeof(DateTime)});
-        /*
-        [DbFunction(name: "LEFT", IsBuiltIn = true)]
-        public static string Left(string dados, int quantidade)
-        {
-            throw new NotImplementedException();
-        }*/
     }
 }

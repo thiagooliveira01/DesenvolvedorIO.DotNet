@@ -10,6 +10,8 @@ namespace Curso.Domain
         public bool Ativo { get; set; }
         public bool Excluido { get; set; }
 
+        public byte[] Image { get; set; } 
+
         public List<Funcionario> Funcionarios {get;set;}
     }
 }
